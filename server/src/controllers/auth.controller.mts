@@ -2,9 +2,9 @@ import jwt from "jsonwebtoken";
 import { Request, Response } from "express";
 import { generateCode, sendVerificationEmail } from "../utils/authutils.mjs";
 import { storeTempcode, verfiyTempCode } from "../services/auth.service.mjs";
-interface requestbody{
-    email:string
-}
+// interface requestbody{
+//     email:string
+// }
 export const requestVerificationCode = async (req:Request, res:Response) => {
     const {email} = req.body
     try {

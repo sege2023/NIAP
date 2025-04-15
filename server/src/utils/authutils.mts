@@ -1,5 +1,6 @@
 import nodemailer from "nodemailer";
 import dotenv from 'dotenv'
+dotenv.config()
 export const generateCode = () => {
     return Math.floor(100000 + Math.random() * 900000).toString(); // 6-digit code
   };
@@ -8,8 +9,8 @@ export const generateCode = () => {
     const transporter = nodemailer.createTransport({
       service: "Gmail",
       auth: {
-        user: process.env.EMAIL, // Your email
-        pass: process.env.EMAIL_PASSWORD, // Your email password
+        user: process.env.EMAIL, 
+        pass: process.env.EMAIL_PASSWORD, 
       },
     });
   

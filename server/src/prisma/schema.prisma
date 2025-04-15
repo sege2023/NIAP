@@ -13,10 +13,21 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
-model VerificationCode {
+model TempUser {
   id        String   @id @default(cuid())
   email     String
   code      String
   expiresAt DateTime
+  lastSentAt DateTime
   createdAt Date
+}
+model User {
+  id           String   @id @default(uuid())
+  email        String   @unique
+  userId       BigInt   @unique
+  createdAt    DateTime @default(now())
+  lastLogin    DateTime?
+  walletBalance Int     @default(0)
+  role         String   @default("customer")
+  verified     Boolean  @default(true)
 }
