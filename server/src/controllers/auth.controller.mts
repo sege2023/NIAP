@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
 import { Request, Response } from "express";
-import { generateCode, sendVerificationEmail } from "../utils/authutils.mjs";
+import { createUserId, generateCode, sendVerificationEmail } from "../utils/authutils.mjs";
 import { storeTempcode, verfiyTempCode } from "../services/auth.service.mjs";
 // interface requestbody{
 //     email:string
