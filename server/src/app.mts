@@ -8,6 +8,7 @@ app.use('/api/v1/requestcode', requestCodeRouter)
 app.use('/api/v1/verifycode', verifyCodeRouter)
 app.get('/', (req,res) =>{
     res.status(200).send('hello, world!');
+    console.log(`${req.method} ${req.path}`);
 });
 app.listen(PORT, () => {
     console.log(`app is listening on port ${PORT}`)

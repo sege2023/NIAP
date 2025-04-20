@@ -1,5 +1,7 @@
 import nodemailer from "nodemailer";
+import jwt from "jsonwebtoken";
 import dotenv from 'dotenv'
+import { User } from "@prisma/client";
 dotenv.config()
 export const generateCode = () => {
   return Math.floor(100000 + Math.random() * 900000).toString(); // 6-digit code
@@ -8,6 +10,9 @@ export const generateCode = () => {
 export const sendVerificationEmail = async (email: string, verificationCode: string) => {
   const transporter = nodemailer.createTransport({
     service: "Gmail",
+    host: "smtp.gmail.com",
+    port: 465,
+    secure: true,
     auth: {
       user: process.env.EMAIL, 
       pass: process.env.EMAIL_PASSWORD, 
@@ -15,7 +20,7 @@ export const sendVerificationEmail = async (email: string, verificationCode: str
   });
   
   await transporter.sendMail({
-    from: "NIAP <no-reply@Campusride.com>",
+    from: '"NIAP" <timishittu67@gmail.com>',
     to: email,
     subject: "Verification Code",
     text: `Your verification code is: ${verificationCode}`,
@@ -24,4 +29,15 @@ export const sendVerificationEmail = async (email: string, verificationCode: str
  
 export const createUserId = (): bigint =>{
   return BigInt(Math.floor(1e10 + Math.random() * 9e10));
+}
+export const generateToken = (user:User) =>{
+  return jwt.sign(
+    {
+      userId: user.userId,
+      email: user.email,
+      balance: user.walletBalance // Include balance in token
+    },
+    process.env.JWT_SECRET!,
+    { expiresIn: '14d' }
+  );
 }

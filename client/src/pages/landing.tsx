@@ -16,31 +16,31 @@ const Landing = () =>{
     const [isResending, setIsResending] = useState(false);
     const [timer,setTimer] = useState(0)
     const navigate = useNavigate()
-    const isValidEmail = (email: string) =>
-        /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    // const isValidEmail = (email: string) =>
+    //     /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
-    const validateEmail = (value: string) => {
+    // const validateEmail = (value: string) => {
       
-      if (!isValidEmail(value)) {
-        setMessage("Please enter a valid email address");
-        return false; 
-      }
-    }
+    //   if (!isValidEmail(value)) {
+    //     setMessage("Please enter a valid email address");
+    //     return false; 
+    //   }
+    // }
 
     const handleEmailChange = (e:ChangeEvent<HTMLInputElement>) => {
       const value = e.target.value;
       setEmail(value);
-      validateEmail(value);
+      // validateEmail(value);
     };
     const handleCodeChange = (e:ChangeEvent<HTMLInputElement>) => {
       const value = e.target.value;
       setCode(value);
-      validateEmail(value);
+      // validateEmail(value);
     };
     const sendEmail = async () => {
-      if (!validateEmail(email)) {
-        return;
-      }
+      // if (!validateEmail(email)) {
+      //   return;
+      // }
         try {
             const response  = await fetch('/api/v1/requestcode',{
                 method: "POST",
@@ -64,7 +64,7 @@ const Landing = () =>{
             
     }
 
-    const verifyCode = async () => {
+    const verifyCodeSent = async () => {
         setMessage('Verifying Code')
         if (!code || code.length !== 6) {
           setMessage("Please enter a 6-digit verification code");
@@ -73,7 +73,7 @@ const Landing = () =>{
         const response = await fetch("/api/v1/verifycode", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ email:email, verificationCode:code }),
+          body: JSON.stringify({ email:email, code:code }),
         });
     
         const result:ApiResponse = await response.json();
@@ -90,7 +90,7 @@ const Landing = () =>{
     
         setIsResending(true);
         setMessage("Resending verification code...");
-        await fetch("/api/resend-code", {
+        await fetch("/api/v1/resend-code", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ email:email }),
@@ -133,7 +133,7 @@ const Landing = () =>{
                 onChange={handleCodeChange}
                 placeholder='enter 6 digit code'
                 />
-                <button onClick={verifyCode}
+                <button onClick={verifyCodeSent}
                 disabled={!code ||code.length !== 6}>Verify</button>
             </div>
             <button onClick={handleResend}

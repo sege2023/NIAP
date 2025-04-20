@@ -3,15 +3,21 @@ import { createUserId } from "../utils/authutils.mjs";
 
 
 export const storeTempcode = async (email: string, code:string) => {
-    await prisma.tempUser.create({
-        data:{
-            email,
-            code,
-            expiresAt: new Date(Date.now() + 15*60*1000),
-            createdAt: new Date(Date.now()),
-            lastSentAt: new Date
-        }
-    })
+  await prisma.tempUser.upsert({
+    where: { email },
+    update: { 
+      code,
+      expiresAt: new Date(Date.now() + 15*60*1000),
+      lastSentAt: new Date()
+    },
+    create: {
+      email,
+      code,
+      expiresAt: new Date(Date.now() + 15*60*1000),
+      createdAt: new Date(),
+      lastSentAt: new Date()
+    }
+  });
 }
 
 export const verfiyTempCode = async (email:string, code: string) => {
@@ -21,20 +27,31 @@ export const verfiyTempCode = async (email:string, code: string) => {
         orderBy: {createdAt: "desc"},
     })
     if (!record || new Date() > record.expiresAt) return false
+    const existingUser = await prisma.user.findUnique({
+        where: {email},
+        select: {userId: true,
+          walletBalance: true
+        }
+    })
     
-    if (record && new Date() < record.expiresAt) {
-        await prisma.user.create({
-          data: {
-            email,
-            userId,
-            createdAt: new Date(),
-            lastLogin: new Date(),  
-            walletBalance: 0,
-            role: "customer",
-            verified: true
-          }
-        });
-        return true;
+    if (existingUser) {
+      await prisma.user.update({
+        where: { email },
+        data: { lastLogin: new Date() }
+      });
+      return true;
+    }
+    
+    await prisma.user.create({
+      data: {
+        email,
+        userId,
+        createdAt: new Date(),
+        lastLogin: new Date(),  
+        walletBalance: 0,
+        role: "customer",
+        verified: true
       }
-  return true;
+    });
+    return true;
 };
