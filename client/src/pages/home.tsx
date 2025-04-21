@@ -1,24 +1,66 @@
 // import styles from '../styles/home.module.css'
+import { useEffect, useState } from 'react'
 import styles from '../styles/home.module.css'
 // import styles from '../styles/nav.module.css'
 const Home = () =>{
+    const userId = useState('loading ...')
+    const[balance, setBalance] = useState(0)
+    const [transactions, setTransactions] = useState([])
+    const [amount, setAmount] = useState(0)
+    const [message, setMessage] = useState("")
+    const [isopen, setIsOpen] = useState(false)
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                
+            } catch (error) {
+                
+            }
+        }
+    }, [])
+
+    const handleTopup = () =>{
+        try {
+            
+        } catch (error) {
+            
+        }
+    }
 return(
-    <>
-    <div>
-        <div className={styles.customerboard}>
-            <button>user id</button>
-            <div>
-                <p>Available balance</p>
+    <div className={styles.container}>
+        <div className={styles.containerwrapper}>
+            <div className={styles.customerboard}>
+                <div className={styles.header}>
+                    <button className={styles.userId}>USER ID</button>
+                    <div>
+                        <button onClick={() => setIsOpen(true)} className={styles.topUpButton}>+ TOP UP</button>
+                        {isopen &&  (
+                            <div className={styles.modaloverlay} onClick={() => setIsOpen(false)}>
+                                <div className={styles.modal} onClick={(e => e.stopPropagation())}>
+                                    <h2>Top Up</h2>
+                                    <input type="number" placeholder='Enter amount' value={amount} onChange={(e) => setAmount(Number(e.target.value))} />
+                                    <button onClick={handleTopup}>Top Up</button>
+                                    <button onClick={() => setIsOpen(false)}>Close</button>
+                                </div>
+                            </div>
+                        )}
+                    </div>
+                </div>
+                <div>
+                    <p>Available balance</p>
+                    <p>13000</p>
+                </div>
+                <div>
+                </div>
+                {/* <div className={styles.topup}>
+                    <button>+ top up</button>
+                </div> */}
             </div>
-            <div>
-                <p>13000</p>
-            </div>
-            <div>
-                <button>+ top up</button>
+            <div className={styles.transaction}>
+
             </div>
         </div>
     </div>
-    </>
 )
 }
 export default Home
