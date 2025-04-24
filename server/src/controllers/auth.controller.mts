@@ -1,8 +1,8 @@
 import jwt from "jsonwebtoken";
 import { Request, Response } from "express";
-import { createUserId, generateCode, sendVerificationEmail } from "../utils/authutils.mjs";
+import { createUserId, generateCode, sendVerificationEmail , generateToken} from "../utils/authutils.mjs";
 import { storeTempcode, verfiyTempCode } from "../services/auth.service.mjs";
-// interface requestbody{
+import { User } from "@prisma/client";// interface requestbody{
 //     email:string
 // }
 export const requestVerificationCode = async (req:Request, res:Response) => {
@@ -33,9 +33,27 @@ export const verifyCode = async (req:Request, res:Response) => {
     const { email, code } = req.body;
     console.log("checking code with db for verification")
     const isValid = await verfiyTempCode(email, code);
-    console.log('code matches with db tempcode')
+    if (!isValid) {
+        res.status(400).json({ message: "Invalid or expired code" });
+        return;
+    }
+    console.log('code matches with db tempcode');
+    const user = await verfiyTempCode(email, code); // Replace with actual user fetching logic
+    if (!user) {
+        res.status(400).json({ message: "User not found" });
+        return;
+    }
+    const userWithEmail = { ...user, email }; // Ensure email is included
+    const token = generateToken(userWithEmail);
+    console.log("token generated")
+    res.cookie("token", token, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "strict",
+        maxAge: 14 * 24 * 60 * 60 * 1000, // 14 days
+    });
     res.status(200).json({ success: true, message: "Code verified successfully" });
-  
+
     if (!isValid) {
         res.status(400).json({ message: "Invalid or expired code" });
         return;

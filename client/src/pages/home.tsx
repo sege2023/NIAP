@@ -1,8 +1,10 @@
 // import styles from '../styles/home.module.css'
 import { useEffect, useState } from 'react'
 import styles from '../styles/home.module.css'
+import { useNavigate } from 'react-router-dom'
 // import styles from '../styles/nav.module.css'
 const Home = () =>{
+    const navigate = useNavigate()
     const userId = useState('loading ...')
     const[balance, setBalance] = useState(0)
     const [transactions, setTransactions] = useState([])
@@ -18,6 +20,27 @@ const Home = () =>{
             }
         }
     }, [])
+    // useEffect(() => {
+    //     const fetchHomeData = async () => {
+    //       try {
+    //         const res = await fetch('/api/v1/home', {
+    //           credentials: 'include' // Send cookies
+    //         });
+            
+    //         if (!res.ok) {
+    //           throw new Error('Unauthorized');
+    //         }
+            
+    //         const data = await res.json();
+    //         console.log('User data:', data.user);
+            
+    //       } catch (err) {
+    //         navigate('/'); // Redirect if unauthorized
+    //       }
+    //     };
+        
+    //     fetchHomeData();
+    //   }, [navigate]);
 
     const handleTopup = () =>{
         try {

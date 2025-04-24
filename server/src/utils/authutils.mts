@@ -2,7 +2,14 @@ import nodemailer from "nodemailer";
 import jwt from "jsonwebtoken";
 import dotenv from 'dotenv'
 import { User } from "@prisma/client";
+// import JwtPayloadUser from "./types/user.mts";
+// import JwtPayloadUser from "../../../types/user.mjs";
 dotenv.config()
+type JwtPayloadUser = {
+  userId: bigint;
+  email: string;
+  walletBalance: number;
+};
 export const generateCode = () => {
   return Math.floor(100000 + Math.random() * 900000).toString(); // 6-digit code
 };
@@ -30,10 +37,10 @@ export const sendVerificationEmail = async (email: string, verificationCode: str
 export const createUserId = (): bigint =>{
   return BigInt(Math.floor(1e10 + Math.random() * 9e10));
 }
-export const generateToken = (user:User) =>{
+export const generateToken = (user:JwtPayloadUser) =>{
   return jwt.sign(
     {
-      userId: user.userId,
+      userId: user.userId.toString(),
       email: user.email,
       balance: user.walletBalance // Include balance in token
     },

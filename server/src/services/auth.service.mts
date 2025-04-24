@@ -26,7 +26,7 @@ export const verfiyTempCode = async (email:string, code: string) => {
         where: {email,code}, 
         orderBy: {createdAt: "desc"},
     })
-    if (!record || new Date() > record.expiresAt) return false
+    if (!record || new Date() > record.expiresAt) return null
     const existingUser = await prisma.user.findUnique({
         where: {email},
         select: {userId: true,
@@ -39,10 +39,10 @@ export const verfiyTempCode = async (email:string, code: string) => {
         where: { email },
         data: { lastLogin: new Date() }
       });
-      return true;
+      return existingUser;
     }
     
-    await prisma.user.create({
+    const newUser = await prisma.user.create({
       data: {
         email,
         userId,
@@ -53,5 +53,5 @@ export const verfiyTempCode = async (email:string, code: string) => {
         verified: true
       }
     });
-    return true;
+    return newUser;
 };
