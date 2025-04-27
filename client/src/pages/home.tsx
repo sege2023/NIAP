@@ -5,20 +5,25 @@ import { useNavigate } from 'react-router-dom'
 // import styles from '../styles/nav.module.css'
 const Home = () =>{
     const navigate = useNavigate()
-    const userId = useState('loading ...')
+    const [userId, setUserId] = useState('loading ...')
     const[balance, setBalance] = useState(0)
     const [transactions, setTransactions] = useState([])
     const [amount, setAmount] = useState(0)
     const [message, setMessage] = useState("")
     const [isopen, setIsOpen] = useState(false)
+    const [email, setEmail] = useState("")
     useEffect(() => {
-        const fetchData = async () => {
+        const fetchUserData = async () => {
             try {
-                
+                const response = await fetch('/api/v1/userdata');
+                const data = await response.json();
+                setUserId(data.userId || 'USER_123'); // Fallback if no ID
+                setBalance(data.balance || 0);
             } catch (error) {
                 
             }
         }
+        fetchUserData()
     }, [])
     // useEffect(() => {
     //     const fetchHomeData = async () => {
@@ -44,7 +49,17 @@ const Home = () =>{
 
     const handleTopup = () =>{
         try {
-            
+            const res = fetch('/api/v1/topup', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'credentials': 'include'
+                },
+                body: JSON.stringify({
+                    email: email,
+                    amount: amount
+                })
+            })
         } catch (error) {
             
         }

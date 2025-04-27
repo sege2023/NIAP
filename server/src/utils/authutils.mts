@@ -5,7 +5,7 @@ import { User } from "@prisma/client";
 // import JwtPayloadUser from "./types/user.mts";
 // import JwtPayloadUser from "../../../types/user.mjs";
 dotenv.config()
-type JwtPayloadUser = {
+export type JwtPayloadUser = {
   userId: bigint;
   email: string;
   walletBalance: number;

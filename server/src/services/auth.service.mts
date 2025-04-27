@@ -29,7 +29,9 @@ export const verfiyTempCode = async (email:string, code: string) => {
     if (!record || new Date() > record.expiresAt) return null
     const existingUser = await prisma.user.findUnique({
         where: {email},
-        select: {userId: true,
+        select: {
+          email: true,
+          userId: true,
           walletBalance: true
         }
     })
@@ -55,3 +57,20 @@ export const verfiyTempCode = async (email:string, code: string) => {
     });
     return newUser;
 };
+
+// On protected routes:
+// const verifyToken = async(req: Request, res: Response, next: NextFunction) => {
+//   const token = req.cookies.token;
+//   const decoded = jwt.verify(token, process.env.JWT_SECRET!) as { userId: string };
+  
+//   const user = await prisma.user.findUnique({
+//     where: { userId: decoded.userId },
+//     select: { walletBalance: true }
+//   });
+
+//   if (user.walletBalance !== decoded.balance) {
+//     return res.status(403).json({ message: "Balance mismatch - reauthentication required" });
+//   }
+  
+//   next();
+// };
