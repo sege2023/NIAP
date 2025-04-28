@@ -1,4 +1,5 @@
-export const findUserbyId = async (userId: string) => {
+import { prisma } from "../prisma/prisma.mjs"
+export const findUserbyId = async (userId:bigint) => {
     const user = await prisma.user.findUnique({
         where: { userId },
         select: {

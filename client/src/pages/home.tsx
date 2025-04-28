@@ -15,7 +15,7 @@ const Home = () =>{
     useEffect(() => {
         const fetchUserData = async () => {
             try {
-                const response = await fetch('/api/v1/userdata');
+                const response = await fetch('/api/v1/dashboard', );
                 const data = await response.json();
                 setUserId(data.userId || 'USER_123'); // Fallback if no ID
                 setBalance(data.balance || 0);
@@ -69,7 +69,7 @@ return(
         <div className={styles.containerwrapper}>
             <div className={styles.customerboard}>
                 <div className={styles.header}>
-                    <button className={styles.userId}>USER ID</button>
+                    <button className={styles.userId}>{userId}</button>
                     <div>
                         <button onClick={() => setIsOpen(true)} className={styles.topUpButton}>+ TOP UP</button>
                         {isopen &&  (
@@ -86,7 +86,7 @@ return(
                 </div>
                 <div>
                     <p>Available balance</p>
-                    <p>13000</p>
+                    <p>{balance.toLocaleString()}</p>
                 </div>
                 <div>
                 </div>

@@ -42,7 +42,7 @@ export const generateToken = (user:JwtPayloadUser) =>{
     {
       userId: user.userId.toString(),
       email: user.email,
-      balance: user.walletBalance // Include balance in token
+      balance: user.walletBalance 
     },
     process.env.JWT_SECRET!,
     { expiresIn: '14d' }
