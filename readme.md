@@ -1,7 +1,7 @@
 # NIAP- Token Wallet System with Paystack Integration
 
 ## Tech Stack
--Frontend: Reactjs
+- Frontend: Reactjs
 
 - Backend: Node.js, Express
 
