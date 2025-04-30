@@ -2,9 +2,7 @@
 import { useEffect, useState } from 'react'
 import styles from '../styles/home.module.css'
 import { useNavigate } from 'react-router-dom'
-// import styles from '../styles/nav.module.css'
 const Home = () =>{
-    const navigate = useNavigate()
     const [userId, setUserId] = useState('loading ...')
     const[balance, setBalance] = useState(0)
     const [transactions, setTransactions] = useState([])
@@ -17,7 +15,7 @@ const Home = () =>{
             try {
                 const response = await fetch('/api/v1/dashboard', );
                 const data = await response.json();
-                setUserId(data.userId || 'USER_123'); // Fallback if no ID
+                setUserId(data.userId || 'USER_123');
                 setBalance(data.balance || 0);
             } catch (error) {
                 
