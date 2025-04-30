@@ -1,6 +1,8 @@
 # NIAP- Token Wallet System with Paystack Integration
 
 ## Tech Stack
+-Frontend: Reactjs
+
 - Backend: Node.js, Express
 
 - Database: PostgreSQL (managed with Prisma ORM)
