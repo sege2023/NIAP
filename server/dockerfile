@@ -1,0 +1,9 @@
+FROM node:23.0-alpine3.18
+WORKDIR /app
+COPY package*.json ./
+COPY prisma ./prisma 
+RUN npm install --omit=dev
+RUN npx prisma generate && npx prisma migrate deploy
+COPY . .
+RUN npm run build
+CMD [ "node", "start" ]

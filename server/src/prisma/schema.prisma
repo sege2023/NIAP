@@ -30,3 +30,12 @@ model User {
   role         String   @default("customer")
   verified     Boolean  @default(true)
 }
+model Transaction {
+  id         String   @id @default(cuid())
+  user       User     @relation(fields: [userId], references: [id])
+  userId     String
+  reference  String   @unique
+  amount     Int
+  status     String
+  createdAt  DateTime @default(now())
+}
