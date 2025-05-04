@@ -6,4 +6,4 @@ RUN npm install --omit=dev
 RUN npx prisma generate && npx prisma migrate deploy
 COPY . .
 RUN npm run build
-CMD [ "node", "start" ]
+CMD [ "npm", "start" ]
