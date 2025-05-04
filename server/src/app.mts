@@ -7,7 +7,7 @@ import { protect } from './middleware/home-auth.mjs';
 import homerouter from './routes/auth.routes.mjs';
 import topupRouter from './routes/topup.route.mjs';
 import webhookrouter from './routes/verifypayment.route.mjs';
-const PORT = 9000
+const PORT = process.env.PORT || 9000
 const app = express();
 app.use('/api/v1/webhook', webhookrouter)
 app.use(express.json())
