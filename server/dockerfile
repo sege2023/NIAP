@@ -1,7 +1,9 @@
-FROM node:23.0-alpine3.18
+FROM node:22.15-slim
+# FROM node:20
+RUN apt-get update && apt-get install -y openssl
 WORKDIR /app
 COPY package*.json ./
-COPY prisma ./prisma 
+COPY src/prisma ./prisma
 RUN npm install --omit=dev
 RUN npx prisma generate && npx prisma migrate deploy
 COPY . .
