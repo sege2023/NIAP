@@ -1,4 +1,5 @@
 // import styles from '../styles/home.module.css'
+import { fetchAPI } from '../utils/api'
 import { useEffect, useState } from 'react'
 import styles from '../styles/home.module.css'
 import { useNavigate } from 'react-router-dom'
@@ -13,12 +14,13 @@ const Home = () =>{
     useEffect(() => {
         const fetchUserData = async () => {
             try {
-                const response = await fetch('/api/v1/dashboard', );
-                const data = await response.json();
+                const data = await fetchAPI('/api/v1/dashboard', );
+                // const data = await response.json();
                 setUserId(data.userId || 'USER_123');
-                setBalance(data.balance || 0);
+                setBalance(data.balance);
             } catch (error) {
-                
+                setMessage("Failed to fetch user data");
+                console.error("Error fetching user data:", error);
             }
         }
         fetchUserData()
@@ -45,9 +47,9 @@ const Home = () =>{
     //     fetchHomeData();
     //   }, [navigate]);
 
-    const handleTopup = () =>{
+    const handleTopup = async() =>{
         try {
-            const res = fetch('/api/v1/topup', {
+            const res = await  fetchAPI('/api/v1/topup', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -58,8 +60,17 @@ const Home = () =>{
                     amount: amount
                 })
             })
+            const data = await res.json()
+            if (data.authorization_url) {
+                window.location.href = data.authorization_url;
+                
+            }
+            else{
+                console.error("Failed to redirect to payment page")
+                setMessage(data.message || "Failed to redirect to payment page")
+            }
         } catch (error) {
-            
+            console.error("Payment initiation failed:", error);
         }
     }
 return(
@@ -74,7 +85,7 @@ return(
                             <div className={styles.modaloverlay} onClick={() => setIsOpen(false)}>
                                 <div className={styles.modal} onClick={(e => e.stopPropagation())}>
                                     <h2>Top Up</h2>
-                                    <input type="number" placeholder='Enter amount' value={amount} onChange={(e) => setAmount(Number(e.target.value))} />
+                                    <input type="amount" placeholder='Enter amount' value={amount} onChange={(e) => setAmount(Number(e.target.value))} />
                                     <button onClick={handleTopup}>Top Up</button>
                                     <button onClick={() => setIsOpen(false)}>Close</button>
                                 </div>

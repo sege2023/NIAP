@@ -5,6 +5,23 @@ import { storeTempcode, verfiyTempCode } from "../services/auth.service.mjs";
 import { User } from "@prisma/client";// interface requestbody{
 //     email:string
 // }
+export const validateUser = async (req:Request, res:Response) => {
+    const token = req.cookies?.token || req.headers.authorization?.split(' ')[1];
+      
+        if (!token) {
+           res.status(401).json({ message: 'Unauthorized' });
+           return;
+        }
+      
+        try {
+          const decoded = jwt.verify(token, process.env.JWT_SECRET!);
+          res.status(200).json({ok:true, message: 'Token is valid' });
+        //   (req as any).user = decoded;
+        } catch (err) {
+          res.status(401).json({ message: 'Invalid token' });
+          console.error('Unable to authenticate:', err);
+        }
+}
 export const requestVerificationCode = async (req:Request, res:Response) => {
     const {email} = req.body
     try {
@@ -17,9 +34,13 @@ export const requestVerificationCode = async (req:Request, res:Response) => {
         console.log("generating code")
         const code = generateCode()
         console.log("storing code")
-        await storeTempcode(email,code)
+        const[store,send] = await Promise.all([
+            storeTempcode(email, code),
+            sendVerificationEmail(email, code)
+        ])
+        // await storeTempcode(email,code)
         console.log("sending email ..")
-        await sendVerificationEmail(email, code);
+        // await sendVerificationEmail(email, code);
         res.status(200).json({ message: "Verification code sent!" });
     } catch (error) {
         console.error('registration error',error)

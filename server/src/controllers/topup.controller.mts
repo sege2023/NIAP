@@ -1,8 +1,22 @@
 import { Request, Response } from "express";
+
+// Extend the Request interface to include the 'user' property
+declare global {
+    namespace Express {
+        interface Request {
+            user?: { email: string };
+        }
+    }
+}
 import { paystackResponse } from "../services/paystack.service.mjs";
 export const topUp = async (req:Request, res:Response) => {
-    const {email,amount} = req.body;
+    const email = req.user?.email
+    const {amount} = req.body;
     try {
+        if (!email) {
+            res.status(400).json({ message: "Email is required" });
+            return
+        }
         const response = await paystackResponse(email, amount);
         const { authorization_url, access_code, reference } = response.data;
 
