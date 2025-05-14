@@ -14,7 +14,7 @@ const app = express();
 app.use('/api/v1/webhook', webhookrouter)
 app.use(express.json())
 const corsOptions = {
-    origin: 'https://niap.pages.dev/', 
+    origin: 'https://niap.pages.dev', 
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true 
