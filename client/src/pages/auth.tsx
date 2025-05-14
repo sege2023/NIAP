@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
-import { fetchAPI } from '../utils/api'; // Your fetchAPI wrapper
+import { fetchAPI } from '../utils/api'; 
 
 const ProtectedRoute: React.FC<{ redirectPath?: string }> = ({ redirectPath = '/landing' }) => {
     const [isLoading, setIsLoading] = useState(true);
@@ -11,9 +11,9 @@ const ProtectedRoute: React.FC<{ redirectPath?: string }> = ({ redirectPath = '/
             try {
                 const result = await fetchAPI('/api/v1/validate', { credentials: 'include' })
                 if (result && result.ok) {
-                    setIsAuthenticated(true); // Set authenticated status to true
+                    setIsAuthenticated(true); 
                 } else {
-                    setIsAuthenticated(false); // Set authenticated status to false
+                    setIsAuthenticated(false); 
                 }
             } catch (error) {
                 console.error("Authentication check failed:", error);
@@ -26,7 +26,7 @@ const ProtectedRoute: React.FC<{ redirectPath?: string }> = ({ redirectPath = '/
     }, []);
 
     if (isLoading) {
-        return <div>Checking authentication...</div>; // Or a spinner component
+        return <div>Checking authentication...</div>; 
     }
 
     if (!isAuthenticated) {

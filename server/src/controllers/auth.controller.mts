@@ -2,9 +2,7 @@ import jwt from "jsonwebtoken";
 import { Request, Response } from "express";
 import { createUserId, generateCode, sendVerificationEmail , generateToken} from "../utils/authutils.mjs";
 import { storeTempcode, verfiyTempCode } from "../services/auth.service.mjs";
-import { User } from "@prisma/client";// interface requestbody{
-//     email:string
-// }
+
 export const validateUser = async (req:Request, res:Response) => {
     const token = req.cookies?.token || req.headers.authorization?.split(' ')[1];
       
@@ -65,8 +63,8 @@ export const verifyCode = async (req:Request, res:Response) => {
     res.cookie("token", token, {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
-        sameSite: "strict",
-        maxAge: 14 * 24 * 60 * 60 * 1000, // 14 days
+        sameSite: "none",
+        maxAge: 14 * 24 * 60 * 60 * 1000, 
     });
     res.status(200).json({ success: true, message: "Code verified successfully" });
 
