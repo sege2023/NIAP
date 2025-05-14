@@ -1,4 +1,5 @@
 import express from 'express';
+import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import requestCodeRouter from './routes/requestcode.route.mjs';
 import verifyCodeRouter from './routes/verifycode.route.mjs';
@@ -12,6 +13,14 @@ const PORT = process.env.PORT || 9000
 const app = express();
 app.use('/api/v1/webhook', webhookrouter)
 app.use(express.json())
+const corsOptions = {
+    origin: 'https://niap.pages.dev/', 
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    credentials: true 
+  };
+  
+app.use(cors(corsOptions))
 app.use(express.urlencoded({ extended: true }))
 app.use(cookieParser())
 app.use('/api/v1/validate',validateRouter)

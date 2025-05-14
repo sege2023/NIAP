@@ -21,32 +21,7 @@ const Landing = () =>{
     const [verified, setVerified] = useState(false)
     const [verificationSent, setVerificationSent] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
-    // const navigate = useNavigate()
-    // const isValidEmail = (email: string) =>
-    //     /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-
-    // const validateEmail = (value: string) => {
-      
-    //   if (!isValidEmail(value)) {
-    //     setMessage("Please enter a valid email address");
-    //     return false; 
-    //   }
-    // }
-
-    // const handleEmailChange = (e:ChangeEvent<HTMLInputElement>) => {
-    //   const value = e.target.value;
-    //   setEmail(value);
-    //   // validateEmail(value);
-    // };
-    // const handleCodeChange = (e:ChangeEvent<HTMLInputElement>) => {
-    //   const value = e.target.value;
-    //   setCode(value);
-    //   // validateEmail(value);
-    // };
     const handleSendCode = async () => {
-      // if (!validateEmail(email)) {
-      //   return;
-      // }
         try {
             const data:ApiResponse  = await fetchAPI('/api/v1/requestcode',{
                 method: "POST",
@@ -55,7 +30,6 @@ const Landing = () =>{
                 },
                 body:{email}
             })
-            // const data:ApiResponse = await response.json()
             if(data.ok){
               setMessage('Verification code sent check your email')
             }
