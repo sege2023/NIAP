@@ -2,15 +2,15 @@
 import { fetchAPI } from '../utils/api'
 import { useEffect, useState } from 'react'
 import styles from '../styles/home.module.css'
-import { useNavigate } from 'react-router-dom'
+// import { useNavigate } from 'react-router-dom'
 const Home = () =>{
     const [userId, setUserId] = useState('loading ...')
     const[balance, setBalance] = useState(0)
-    const [transactions, setTransactions] = useState([])
+    // const [transactions, setTransactions] = useState([])
     const [amount, setAmount] = useState(0)
     const [message, setMessage] = useState("")
     const [isopen, setIsOpen] = useState(false)
-    const [email, setEmail] = useState("")
+    // const [email, setEmail] = useState("")
     useEffect(() => {
         const fetchUserData = async () => {
             try {
@@ -49,18 +49,16 @@ const Home = () =>{
 
     const handleTopup = async() =>{
         try {
-            const res = await  fetchAPI('/api/v1/topup', {
+            const data = await  fetchAPI('/api/v1/topup', {
                 method: 'POST',
+                credentials: 'include',
                 headers: {
                     'Content-Type': 'application/json',
-                    'credentials': 'include'
+                    // 'Authorization': `Bearer ${token}`
                 },
-                body: JSON.stringify({
-                    email: email,
-                    amount: amount
-                })
+                body:{ amount: amount }
             })
-            const data = await res.json()
+            // const data = await res.json()
             if (data.authorization_url) {
                 window.location.href = data.authorization_url;
                 
@@ -103,6 +101,11 @@ return(
                     <button>+ top up</button>
                 </div> */}
             </div>
+            {message && (
+                <div className={styles.message}>
+                    {message}
+                </div>
+            )}
             <div className={styles.transaction}>
 
             </div>

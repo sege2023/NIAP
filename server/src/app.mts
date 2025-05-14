@@ -12,6 +12,7 @@ const PORT = process.env.PORT || 9000
 const app = express();
 app.use('/api/v1/webhook', webhookrouter)
 app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
 app.use(cookieParser())
 app.use('/api/v1/validate',validateRouter)
 app.use('/api/v1/requestcode', requestCodeRouter)
