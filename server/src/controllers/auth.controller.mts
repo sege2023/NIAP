@@ -65,6 +65,7 @@ export const verifyCode = async (req:Request, res:Response) => {
         secure: process.env.NODE_ENV === "production",
         sameSite: "none",
         maxAge: 14 * 24 * 60 * 60 * 1000, 
+        
     });
     res.status(200).json({ success: true, message: "Code verified successfully" });
 
