@@ -12,22 +12,22 @@ import validateRouter from './routes/validate.route.mjs';
 const PORT = process.env.PORT || 9000
 const app = express();
 app.use('/api/v1/webhook', webhookrouter)
-app.use(express.json())
 const corsOptions = {
     origin: 'https://niap.pages.dev', 
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true 
-  };
-  
+};
+
+app.use(express.json())
 app.use(cors(corsOptions))
 app.use(express.urlencoded({ extended: true }))
 app.use(cookieParser())
 app.use('/api/v1/validate',validateRouter)
 app.use('/api/v1/requestcode', requestCodeRouter)
 app.use('/api/v1/verifycode', verifyCodeRouter)
-app.use('/api/v1/topup', topupRouter)
 app.use('/api/v1/dashboard', dashboardRouter)
+app.use('/api/v1/topup', topupRouter)
 
 app.get('/', (req,res) =>{
     res.status(200).send('hello, world!');
