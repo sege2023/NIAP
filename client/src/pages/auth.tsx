@@ -1,38 +1,35 @@
-import React, { useEffect, useState } from 'react';
-import { Navigate, Outlet } from 'react-router-dom';
-import { fetchAPI } from '../utils/api'; 
-
-const ProtectedRoute: React.FC<{ redirectPath?: string }> = ({ redirectPath = '/landing' }) => {
-    const [isLoading, setIsLoading] = useState(true);
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { fetchAPI } from "../utils/api"; 
+const AuthCheck: React.FC = () => {
+    const navigate = useNavigate();
 
     useEffect(() => {
-        const verifyToken = async () => {
+        const checkAuthAndRedirect = async () => {
             try {
-                const result = await fetchAPI('/api/v1/validate', { credentials: 'include' })
+                const result = await fetchAPI('/api/v1/validate', { credentials: 'include' });
+
                 if (result && result.ok) {
-                    setIsAuthenticated(true); 
+                    // If authenticated, redirect to homepage
+                    navigate('/home', { replace: true });
                 } else {
-                    setIsAuthenticated(false); 
+                    // If not authenticated, redirect to landing page
+                    navigate('/landing', { replace: true });
                 }
             } catch (error) {
-                console.error("Authentication check failed:", error);
-                setIsAuthenticated(false); 
-            } finally {
-                setIsLoading(false); 
+                console.error("Initial auth check failed:", error);
+                // If validation fails (e.g., network error, server error),
+                // treat as unauthenticated for safety and redirect to landing.
+                navigate('/landing', { replace: true });
             }
         };
-        verifyToken();
-    }, []);
 
-    if (isLoading) {
-        return <div>Checking authentication...</div>; 
-    }
+        checkAuthAndRedirect();
+    }, [navigate]); // Dependency array includes navigate
 
-    if (!isAuthenticated) {
-        return <Navigate to={redirectPath} replace />;
-    }
-    return <Outlet />;
+    // You can render a loading state here if needed, but
+    // since it's a quick redirect, often nothing is rendered.
+    return <div>Checking authentication...</div>; // Optional loading indicator
 };
 
-export default ProtectedRoute;
+export default AuthCheck;
