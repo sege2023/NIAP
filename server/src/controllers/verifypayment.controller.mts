@@ -12,6 +12,7 @@ export const paystackwebhook = async (req:Request, res:Response) => {
 
     if (hash !== signature) {
         res.status(401).send('Unauthorized');
+        console.error('Webhook signature mismatch! Unauthorized access attempt.'); 
         return;
     }
     try {
