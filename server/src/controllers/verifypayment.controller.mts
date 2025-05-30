@@ -4,7 +4,10 @@ import { updateWalletBalance } from "../services/verifypayment.service.mjs";
 // import { Request, Response } from "express";
 export const paystackwebhook = async (req:Request, res:Response) => {
     const secret = process.env.PAYSTACK_SECRET_KEY as string;
-    const hash = createHmac("sha512", secret).update(JSON.stringify(req.body)).digest("hex");
+    console.log('Type of req.body:', typeof req.body);
+    console.log('Is req.body a Buffer?', Buffer.isBuffer(req.body)); 
+    const rawBody = Buffer.isBuffer(req.body) ? req.body.toString('utf8') : JSON.stringify(req.body);
+    const hash = createHmac("sha512", secret).update(rawBody).digest("hex");
     const signature = req.headers["x-paystack-signature"] as string;
     console.log('Webhook received! Checking signature...'); 
     console.log('Paystack Signature:', signature); 
@@ -16,7 +19,7 @@ export const paystackwebhook = async (req:Request, res:Response) => {
         return;
     }
     try {
-        const event = req.body;
+        const event = JSON.parse(rawBody);
         console.log('Webhook event data:', JSON.stringify(event, null, 2))
         if (event.event === "charge.success" && event.data.status === "success") {
            const { amount, reference, customer } = event.data;
