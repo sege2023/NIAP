@@ -14,7 +14,7 @@ export const paystackwebhook = async (req:Request, res:Response) => {
         const event = req.body;
         if (event.event === "charge.success" && event.data.status === "success") {
            const { amount, reference, customer } = event.data;
-            const { email } = customer.email;
+            const email  = customer.email;
 
            await updateWalletBalance(email, amount, reference);
            console

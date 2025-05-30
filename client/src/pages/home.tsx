@@ -2,6 +2,7 @@
 import { fetchAPI } from '../utils/api'
 import { useEffect, useState } from 'react'
 import styles from '../styles/home.module.css'
+import { useLocation } from 'react-router-dom'
 // import { useNavigate } from 'react-router-dom'
 const Home = () =>{
     const [userId, setUserId] = useState('loading ...')
@@ -10,9 +11,10 @@ const Home = () =>{
     const [amount, setAmount] = useState(0)
     const [message, setMessage] = useState("")
     const [isopen, setIsOpen] = useState(false)
-    // const [email, setEmail] = useState("")
-    useEffect(() => {
-        const fetchUserData = async () => {
+
+    const location  = useLocation()
+
+    const fetchUserData = async () => {
             try {
                 const data = await fetchAPI('/api/v1/dashboard', );
                 // const data = await response.json();
@@ -23,8 +25,17 @@ const Home = () =>{
                 console.error("Error fetching user data:", error);
             }
         }
+    useEffect(() => {
+        
         fetchUserData()
-    }, [])
+
+        const queryParams = new URLSearchParams(location.search);
+        if (queryParams.get('trxref') && queryParams.get('status') === 'success') {
+            setTimeout(() => {
+                fetchUserData
+            },2000)
+        }
+    }, [location.search])
     // useEffect(() => {
     //     const fetchHomeData = async () => {
     //       try {

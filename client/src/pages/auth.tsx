@@ -10,10 +10,10 @@ const AuthCheck: React.FC = () => {
                 const result = await fetchAPI('/api/v1/validate', { credentials: 'include' });
 
                 if (result && result.ok) {
-                    // If authenticated, redirect to homepage
+
                     navigate('/home', { replace: true });
                 } else {
-                    // If not authenticated, redirect to landing page
+                    
                     navigate('/landing', { replace: true });
                 }
             } catch (error) {
@@ -25,10 +25,8 @@ const AuthCheck: React.FC = () => {
         };
 
         checkAuthAndRedirect();
-    }, [navigate]); // Dependency array includes navigate
+    }, [navigate]); 
 
-    // You can render a loading state here if needed, but
-    // since it's a quick redirect, often nothing is rendered.
     return <div>Checking authentication...</div>; // Optional loading indicator
 };
 
