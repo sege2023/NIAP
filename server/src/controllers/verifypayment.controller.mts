@@ -23,7 +23,7 @@ export const paystackwebhook = async (req:Request, res:Response) => {
         console.log('Webhook event data:', JSON.stringify(event, null, 2))
         if (event.event === "charge.success" && event.data.status === "success") {
         //    const { amount, reference, customer } = event.data;
-            const { amount, reference, customer, currency, transaction_date, gateway_response, channel, fees , ip_address} = event.data;
+            const { amount, reference, customer, currency, paid_at, gateway_response, channel, fees , ip_address} = event.data;
             const {customer_code, first_name, last_name} = customer;
             const email  = customer.email;
             const user = await prisma.user.findUnique({ where: { email } });
@@ -34,15 +34,27 @@ export const paystackwebhook = async (req:Request, res:Response) => {
                 return;
             }
 
+            const existingTransaction = await prisma.transaction.findUnique({
+                where: { reference: reference }
+            });
+
+            if (existingTransaction) {
+                console.warn(`Webhook for reference ${reference} already processed. Skipping.`);
+                res.status(200).send("Event already processed."); 
+                return;
+            }
+            
+            
+
             console.log(`Charge success for email: ${email}, amount: ${amount}, reference: ${reference}`);
            await updateWalletBalance(email, amount, reference);
            await createTransactionRecord(user.userId, {
                 userId: user.userId,
                 reference,
-                amount: amount / 100, // Convert from kobo to actual amount
-                status: 'success', // Or directly event.data.status if saving all statuses
+                amount: amount / 100, 
+                status: 'success',
                 currency,
-                transactionDate: new Date(transaction_date), 
+                transactionDate: new Date(paid_at), 
                 gatewayResponse: gateway_response,
                 channel,
                 fees: fees ? fees / 100 : null,
