@@ -26,17 +26,28 @@ model User {
   userId       BigInt   @unique
   createdAt    DateTime @default(now())
   lastLogin    DateTime?
-  walletBalance Int     @default(0)
+  walletBalance Decimal     @default(0) @db.Decimal(10,2)
   role         String   @default("customer")
   verified     Boolean  @default(true)
   transactions Transaction[]
 }
 model Transaction {
-  id         String   @id @default(cuid())
-  user       User     @relation(fields: [userId], references: [id])
-  userId     String
+  id         BigInt   @id @default(autoincrement())
+  user       User     @relation(fields: [userId], references: [userId])
+  userId     BigInt
   reference  String   @unique
-  amount     Int
+  amount     Decimal  @db.Decimal(10,2)
   status     String
-  createdAt  DateTime @default(now())
+  currency   String
+  transactionDate DateTime @default(now())
+  gatewayResponse String?
+  channel         String?
+  fees            Decimal? @db.Decimal(10,2)
+  createdAt       DateTime @default(now())
+  customerCode    String?
+  ipAddress       String?
+  firstName       String?
+  lastName        String?
+  type            String?
+  relatedTransactionId BigInt?
 }

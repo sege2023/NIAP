@@ -107,3 +107,8 @@ body,html {
   place-self: center;
   align-items: center;
 }
+
+
+.currencyIcon {
+  color: #3b82f6;
+}

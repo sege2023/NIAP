@@ -8,9 +8,9 @@ import { Request, Response } from "express";
 //         }
 //     }
 // }
-import { AuthRequest } from "../middleware/topup.mjs";
+// import { AuthRequest } from "../middleware/topup.mjs";
 import { paystackResponse } from "../services/paystack.service.mjs";
-export const topUp = async (req:AuthRequest, res:Response) => {
+export const topUp = async (req:Request, res:Response) => {
     const email = req.user?.email
     const {amount} = req.body;
     try {

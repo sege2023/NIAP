@@ -12,18 +12,14 @@ export const sendUserData = async (req: Request, res: Response) => {
     }
     try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET!) as  Pick<JwtPayloadUser, 'userId' >;
-        // res.status(200).json({
-        //     userId: decoded.userId,
-        //     email: decoded.email,
-        //     balance: decoded.walletBalance
-        //   });
+        
         const userId = BigInt(decoded.userId)
         const user = await findUserbyId(userId);
         if (!user) {
             res.status(404).json({ message: "User not found" });
             return
         }
-        console.log('sending that bih', user)
+        console.log('sending user data', user)
         res.status(200).json({
             userId: user.userId.toString(), // Convert BigInt to string for JSON serialization
             email: user.email,

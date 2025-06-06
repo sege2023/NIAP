@@ -29,9 +29,9 @@ export const requestVerificationCode = async (req:Request, res:Response) => {
             })
             return;
         }
-        console.log("generating code")
+        // console.log("generating code")
         const code = generateCode()
-        console.log("storing code")
+        // console.log("storing code")
         const[store,send] = await Promise.all([
             storeTempcode(email, code),
             sendVerificationEmail(email, code)
@@ -61,12 +61,11 @@ export const verifyCode = async (req:Request, res:Response) => {
     const token = generateToken(user);
     console.log("token generated")
     res.cookie("token", token, {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
-        sameSite: "none",
-        maxAge: 14 * 24 * 60 * 60 * 1000, 
-        
-    });
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production", // true in prod, false in dev
+    sameSite: process.env.NODE_ENV === "production" ? "none" : "lax", // "none" in prod, "lax" in dev
+    maxAge: 14 * 24 * 60 * 60 * 1000,
+});
     res.status(200).json({ success: true, message: "Code verified successfully" });
 
     return;

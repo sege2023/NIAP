@@ -2,7 +2,9 @@
 import { fetchAPI } from '../utils/api'
 import { useEffect, useState } from 'react'
 import styles from '../styles/home.module.css'
+import { Wallet } from 'lucide-react'
 import { useLocation } from 'react-router-dom'
+import Navbar from '../layout/nav'
 // import { useNavigate } from 'react-router-dom'
 const Home = () =>{
     const [userId, setUserId] = useState('loading ...')
@@ -36,27 +38,7 @@ const Home = () =>{
             },2000)
         }
     }, [location.search])
-    // useEffect(() => {
-    //     const fetchHomeData = async () => {
-    //       try {
-    //         const res = await fetch('/api/v1/home', {
-    //           credentials: 'include' // Send cookies
-    //         });
-            
-    //         if (!res.ok) {
-    //           throw new Error('Unauthorized');
-    //         }
-            
-    //         const data = await res.json();
-    //         console.log('User data:', data.user);
-            
-    //       } catch (err) {
-    //         navigate('/'); // Redirect if unauthorized
-    //       }
-    //     };
-        
-    //     fetchHomeData();
-    //   }, [navigate]);
+    
 
     const handleTopup = async() =>{
         try {
@@ -102,9 +84,10 @@ return(
                         )}
                     </div>
                 </div>
-                <div>
-                    <p>Available balance</p>
-                    <p>{balance.toLocaleString()}</p>
+                <h3>Available Balance</h3>
+                <div className={styles.balanceWrapper}>
+                    <Wallet size={24} className={styles.currencyIcon} />
+                    <span className={styles.balanceAmount}>${balance.toLocaleString()}</span>
                 </div>
                 <div>
                 </div>
@@ -121,6 +104,7 @@ return(
 
             </div>
         </div>
+        <Navbar/>
     </div>
 )
 }
