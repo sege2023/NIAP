@@ -11,7 +11,7 @@ export const findUserTransactions = async (userId: bigint, skip: number, take:nu
             transactionDate: true,
             type: true
         }
-    })
+    } as const)
     return transactions.map(t=>({
         ...t,
         transactionDate: t.transactionDate.toISOString()

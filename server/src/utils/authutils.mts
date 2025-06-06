@@ -1,7 +1,7 @@
 import nodemailer from "nodemailer";
 import jwt from "jsonwebtoken";
 import dotenv from 'dotenv'
-import { User } from "@prisma/client";
+// import { User } from "@prisma/client";
 // import JwtPayloadUser from "./types/user.mts";
 // import JwtPayloadUser from "../../../types/user.mjs";
 dotenv.config()
