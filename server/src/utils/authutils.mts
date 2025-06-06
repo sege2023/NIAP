@@ -1,6 +1,7 @@
 import nodemailer from "nodemailer";
 import jwt from "jsonwebtoken";
 import dotenv from 'dotenv'
+import { Decimal } from "@prisma/client/runtime/library";
 // import { User } from "@prisma/client";
 // import JwtPayloadUser from "./types/user.mts";
 // import JwtPayloadUser from "../../../types/user.mjs";
@@ -8,7 +9,7 @@ dotenv.config()
 export type JwtPayloadUser = {
   userId: bigint;
   email: string;
-  walletBalance: number;
+  walletBalance: Decimal;
 };
 export const generateCode = () => {
   return Math.floor(100000 + Math.random() * 900000).toString(); // 6-digit code
