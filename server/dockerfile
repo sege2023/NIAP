@@ -10,7 +10,7 @@ COPY src/prisma ./prisma
 # RUN --mount=type=secret,id=my_db_url,target=/tmp/database_url \
 #     DATABASE_URL=$(cat /tmp/database_url) npx prisma generate --schema=./prisma/schema.prisma
 
-# RUN npx prisma generate 
+RUN npx prisma generate 
 
 COPY . .
 RUN npm run build
