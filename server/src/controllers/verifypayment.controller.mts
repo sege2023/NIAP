@@ -24,7 +24,7 @@ export const paystackwebhook = async (req:Request, res:Response) => {
         if (event.event === "charge.success" && event.data.status === "success") {
         //    const { amount, reference, customer } = event.data;
             const { amount, reference, customer, currency, transaction_date, gateway_response, channel, fees , ip_address} = event.data;
-            const {customer_code, first_name, last_name} = event.customer;
+            const {customer_code, first_name, last_name} = customer;
             const email  = customer.email;
             const user = await prisma.user.findUnique({ where: { email } });
 
