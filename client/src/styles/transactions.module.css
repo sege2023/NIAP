@@ -1,0 +1,12 @@
+.container{
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr minmax(auto, 1000px) 1fr;
+  
+}
+.containerwrapper{
+  grid-column: 2;
+}
+.transactionsItem{
+    color: black;
+}

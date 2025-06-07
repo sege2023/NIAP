@@ -13,8 +13,10 @@ export const findUserTransactions = async (userId: bigint, skip: number, take:nu
         where: { userId },
         orderBy: { transactionDate: 'desc' },
         skip,
-        take, // Default limit for main page
+        take, 
         select:{
+            reference: true,
+            channel: true,
             amount: true,
             status: true,
             transactionDate: true,

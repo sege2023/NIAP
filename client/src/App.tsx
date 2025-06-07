@@ -16,9 +16,10 @@ function App() {
         <Routes>
         <Route path ='/' element={<AuthCheck/>} />
         <Route path ='/landing' element={<Landing/>} />
+        {/* <Route path='/transactions' element={<TransactionsPage/>} /> */}
+        <Route path = '/transactions' element = {<TransactionsPage/>}/>
         <Route element={<ProtectedRoute redirectPath="/landing" />}>
           <Route path='/home' element={<Home />} />
-          <Route path='/transaction' element={<TransactionsPage/>} />
         </Route>
         </Routes>
       </BrowserRouter>
