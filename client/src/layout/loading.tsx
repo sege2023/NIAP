@@ -1,6 +1,5 @@
 // components/LoadingIndicator.tsx
-// import React from 'react';
-import styles from './LoadingIndicator.module.css'; // Optional: for styling
+// import React from 'r
 
 interface LoadingIndicatorProps {
   isLoading: boolean;
@@ -11,7 +10,7 @@ interface LoadingIndicatorProps {
 const LoadingIndicator: React.FC<LoadingIndicatorProps> = ({ isLoading, children, fallback }) => {
   if (isLoading) {
     // You can put a spinner, skeleton loader, or anything here
-    return fallback || <div className={styles.spinner}>Loading...</div>;
+    return fallback || <div >Loading...</div>;
   }
   return <>{children}</>; // Render children when not loading
 };

@@ -58,7 +58,7 @@ const TransactionsPage: React.FC = () => {
         <div className={styles.container}>
             <div className={styles.containerwrapper}>
                 <div className={styles.transactionContainer}>
-                    <h1>Your Transactions</h1>
+                    <h1 >Your Transactions</h1>
                      {error && <div style={{ color: 'red' }}>{error}</div>}
                     <LoadingIndicator isLoading={loading} fallback={<div></div>}>
                         {transactions.length > 0 &&(
