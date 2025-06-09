@@ -1,11 +1,12 @@
 import {  useState } from 'react'
 import styles from '../styles/landing.module.css'
-// import {  useNavigate } from 'react-router-dom';
+import {  useNavigate } from 'react-router-dom';
 import { fetchAPI } from '../utils/api';
 import { Mail, Lock, ArrowRight, CheckCircle } from 'lucide-react';
 // interface userData{
 //   email:string
 // }
+const navigate  = useNavigate()
 interface ApiResponse {
   ok?: boolean;
   success?: boolean;
@@ -84,20 +85,7 @@ const Landing = () =>{
         setMessage("A new verification code has been sent to your email.");
         setTimeout(() => setMessage(""), 5000); 
     
-        // setTimeout(() => {
-        //   setIsResending(false); 
-        // }, 60000);
-        // setTimer(60); // 60-second cooldown
-      //  const interval = setInterval(() => {
-      //   setTimer((prevTimer) => {
-      //     if (prevTimer <= 1) {
-      //       clearInterval(interval);
-      //       setIsResending(false);
-      //       return 0;
-      //     }
-      //     return prevTimer - 1;
-      //   });
-      // }, 1000);
+        
       };
 
     return(
@@ -119,7 +107,7 @@ const Landing = () =>{
                       <p className={styles.successMessage}>Your account has been successfully verified</p>
                       <button 
                         className={styles.authButton}
-                        onClick={() => window.location.href = '/home'}
+                        onClick={() => navigate('/home')}
                       >
                         Continue to Dashboard
                       </button>
