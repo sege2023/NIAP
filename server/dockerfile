@@ -45,7 +45,7 @@ COPY package.json package-lock.json ./
 RUN npm install --production --frozen-lockfile
 
 
-RUN npm install --frozen-lockfile # Installs all deps as per package.json
+RUN npm install --frozen-lockfile 
 
 
 COPY src/prisma ./prisma
