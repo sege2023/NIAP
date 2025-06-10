@@ -6,13 +6,13 @@ import { Mail, Lock, ArrowRight, CheckCircle } from 'lucide-react';
 // interface userData{
 //   email:string
 // }
-const navigate  = useNavigate()
 interface ApiResponse {
   ok?: boolean;
   success?: boolean;
   message?: string;
 }
 const Landing = () =>{
+    const navigate  = useNavigate() 
     const [code, setCode] = useState("");
     const[email, setEmail] = useState('')
     const [step, setStep] = useState(1);
