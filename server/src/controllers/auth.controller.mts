@@ -13,7 +13,7 @@ export const validateUser = async (req:Request, res:Response) => {
       
         try {
           const decoded = jwt.verify(token, process.env.JWT_SECRET!);
-          console.log('user is authenticated', decoded);
+          console.log('user is authenticated');
           res.status(200).json({ok:true, message: 'Token is valid' });
         //   (req as any).user = decoded;
         } catch (err) {
@@ -62,11 +62,17 @@ export const verifyCode = async (req:Request, res:Response) => {
 
     const token = generateToken(user);
     console.log("token generated")
+    // res.cookie("token", token, {
+    // httpOnly: true,
+    // secure: process.env.NODE_ENV === "production", // true in prod, false in dev
+    // sameSite: process.env.NODE_ENV === "production" ? "none" : "lax", // "none" in prod, "lax" in dev
+    // maxAge: 14 * 24 * 60 * 60 * 1000,
     res.cookie("token", token, {
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production", // true in prod, false in dev
-    sameSite: process.env.NODE_ENV === "production" ? "none" : "lax", // "none" in prod, "lax" in dev
+    secure: true, // because NODE_ENV === "production"
+    sameSite: "none", // because NODE_ENV === "production"
     maxAge: 14 * 24 * 60 * 60 * 1000,
+
 });
     res.status(200).json({ success: true, message: "Code verified successfully" });
 
