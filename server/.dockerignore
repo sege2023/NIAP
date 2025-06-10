@@ -1,5 +1,18 @@
-dist 
+# dist 
 node_modules
-.git
-.env
+# .git
+# .env
 secret.txt
+.git/
+.env
+.env.*
+*.log
+npm-debug.log
+dist/ 
+build/
+.vscode/
+tmp/
+*.swp
+Dockerfile
+README.md
+.DS_Store
