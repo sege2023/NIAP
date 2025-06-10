@@ -13,10 +13,12 @@ export const validateUser = async (req:Request, res:Response) => {
       
         try {
           const decoded = jwt.verify(token, process.env.JWT_SECRET!);
+          console.log('user is authenticated', decoded);
           res.status(200).json({ok:true, message: 'Token is valid' });
         //   (req as any).user = decoded;
         } catch (err) {
           res.status(401).json({ message: 'Invalid token' });
+          console.log("error verifying token", err);
           console.error('Unable to authenticate:', err);
         }
 }
