@@ -1,0 +1,15 @@
+name: Keep Supabase Alive
+
+on:
+  schedule:
+    # Runs every 6 days at 12:00 UTC
+    - cron: '0 12 */6 * *'
+  workflow_dispatch: # Allows manual trigger
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping backend endpoint
+        run: |
+          curl -f https://niap.onrender.com/health || exit 1

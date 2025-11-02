@@ -9,7 +9,8 @@ import dashboardRouter from './routes/dashboard.route.mjs';
 import topupRouter from './routes/topup.route.mjs';
 import webhookrouter from './routes/verifypayment.route.mjs';
 import validateRouter from './routes/validate.route.mjs';
-import transactionRouter from './routes/transactions.route.mjs';
+import transactionRouter from './routes/transactions.route.mjs'; 
+import pingrouter from './routes/ping.route.mjs';
 const PORT = process.env.PORT || 9000
 const app = express();
 app.use('/api/v1/webhook', webhookrouter)
@@ -30,6 +31,7 @@ app.use('/api/v1/verifycode', verifyCodeRouter)
 app.use('/api/v1/dashboard', dashboardRouter)
 app.use('/api/v1/topup', topupRouter)
 app.use('/api/v1/transactions', transactionRouter)
+app.use('/api/v1', pingrouter);
 
 app.get('/', (req,res) =>{
     res.status(200).send('hello, world!');
